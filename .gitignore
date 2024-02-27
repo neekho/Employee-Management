@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+
+# Visual Studio Code
+.vscode/
+
+# Logs and temporary files
+logs/
+temp/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db

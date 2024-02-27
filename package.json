@@ -1,0 +1,25 @@
+{
+  "name": "employeemanagement",
+  "version": "1.0.0",
+  "description": "My technical requirment for my application at Gallium",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neekho/Employee-Management.git"
+  },
+  "keywords": [
+    "REST"
+  ],
+  "author": "N.R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neekho/Employee-Management/issues"
+  },
+  "homepage": "https://github.com/neekho/Employee-Management#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
