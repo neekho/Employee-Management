@@ -1,7 +1,11 @@
+require('dotenv').config();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+
 const User = require('../models/User')
 const Employee = require('../models/Employee')
 
-const bcrypt = require('bcrypt');
 
 // john.doe@example.com
 // adminexample@
@@ -33,7 +37,8 @@ module.exports.login = async (req, res) => {
         }
 
         // If the password matches, you can send the user information
-        res.json(user);
+        const accessToken = jwt.sign({ userId: user._id, email: user.email }, process.env.ACCESS_TOKEN_SECRET);
+        res.json(accessToken);
     } catch (error) {
         console.log(error);
         res.status(500).json({message: 'Internal server error', error });
