@@ -54,8 +54,11 @@ app.post('/login', async (req, res) => {
 
         // If the password matches, you can send the user information
         // res.json(user);
-        const accessToken = generateAccessToken(user.email);
-        const refreshToken = jwt.sign(user.email, process.env.REFRESH_TOKEN_SECRET);
+
+        ///////////////////////////
+        // to learn
+        const accessToken = generateAccessToken({ userId: user._id, email: user.email, role: user.role });
+        const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_TOKEN_SECRET);
 
         res.send({accessToken : accessToken, refreshToken: refreshToken });
     } catch (error) {
@@ -68,10 +71,9 @@ app.post('/login', async (req, res) => {
 });
 
 
-function generateAccessToken(user) {
-    return jwt.sign(user.email, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
-  }
-  
+function generateAccessToken(payload) {
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+}
 
 
 app.listen(port_number, () => {
