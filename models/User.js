@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 
-const userSchema = new mongoose.Schema({
+const userDocument = new mongoose.Schema({
 
     email: {
         type: String,
@@ -14,11 +14,17 @@ const userSchema = new mongoose.Schema({
         required: [true, "password is required"]
     },
 
+    password: {
+        type: String,
+        required: [true, "role is required"]
+    },
+
+
 
 });
 
 // Hash the password before saving it to the database
-userSchema.pre('save', async function(next) {
+userDocument.pre('save', async function(next) {
     // Check if the password is modified or if it's a new user
     if (!this.isModified('password')) return next();
 
@@ -39,7 +45,7 @@ userSchema.pre('save', async function(next) {
 });
 
 // Custom method to compare passwords during login
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userDocument.methods.comparePassword = async function(candidatePassword) {
     try {
         return await bcrypt.compare(candidatePassword, this.password);
     } catch (error) {
@@ -47,6 +53,6 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
     }
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userDocument);
 
 module.exports = User;
