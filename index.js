@@ -5,28 +5,27 @@ const app = express()
 const port_number = 4000;
 
 
+// PORT 3000 - auth server
+// PORT 4000 - management server
+
+
+
 // MongoDB Atlas connection via driver and a string connection
 // connection string is in config, and is not included in commits.
 const config = require('./config');
 
 const mongoose = require('mongoose');
-mongoose.set("strictQuery", false);
-mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.set("strictQuery", false);
+// mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-let db = mongoose.connection;
+// let db = mongoose.connection;
 
 
-db.on("error", console.error.bind(console, 'MongoDB error connection'));
+// db.on("error", console.error.bind(console, 'MongoDB error connection'));
 
-db.once("open", () => console.log("Connected to MongoDB"));
+// db.once("open", () => console.log("Connected to MongoDB"));
 //
-
-
-
-const User = require('./models/User');
-const Employee = require('./models/Employee');
-
 
 
 

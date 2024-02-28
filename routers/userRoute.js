@@ -8,7 +8,7 @@ const userController = require('../controllers/userController')
 router.get('/live', userController.test);
 
 
-router.post('/login', userController.login);
+// router.post('/login', userController.login);
 
 
 module.exports = router;

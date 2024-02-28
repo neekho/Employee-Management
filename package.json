@@ -4,7 +4,8 @@
   "description": "My technical requirment for my application at Gallium",
   "main": "index.js",
   "scripts": {
-    "devstart": "nodemon index.js"
+    "devstart": "nodemon index.js",
+    "devstartauth": "nodemon authServer.js"
   },
   "repository": {
     "type": "git",
