@@ -1,8 +1,12 @@
 const mongoose = require('mongoose')
 
-const userDocument = require('./User')
+const userDocument = require('./User');
+const { use } = require('moongose/routes');
 
-const employeeDocument = new mongoose.Schema({
+
+const Schema = mongoose.Schema;
+
+const employeeDocument = new Schema({
 
     firstName: {
         type: String,
@@ -18,24 +22,24 @@ const employeeDocument = new mongoose.Schema({
     
     contactNumber: {
         type: String,
-        required: [true, "contact number is required"]
+        required: [false, "contact number key"]
     },
 
     
     position: {
         type: String,
-        required: [false, ""]
+        required: [false, "position key"]
     },
 
     
     department: {
         type: String,
-        required: [false, ""]
+        required: [false, "department key"]
     },
 
     user: { 
-        type: userDocument, 
-        required: true 
+        type: Schema.Types.ObjectId, 
+        ref: userDocument
     
     }
 

@@ -4,37 +4,32 @@ const app = express()
 
 const port_number = 4000;
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+
+// MongoDB Atlas connection via driver and a string connection
+// connection string is in config, and is not included in commits.
+const config = require('./config');
+
+const mongoose = require('mongoose');
+mongoose.set("strictQuery", false);
+mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-// MongoDB Atlass connection via driver and a string connection
-const uri = "mongodb+srv://remokhin:ZEyFwyLiYblWpPbi@cluster0.ycugdte.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+let db = mongoose.connection;
 
-const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-  });
 
-  
-async function run() {
-    try {
-        // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
-        // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } 
+db.on("error", console.error.bind(console, 'MongoDB error connection'));
 
-    finally {
-        // Ensures that the client will close when you finish/error
-        await client.close();
-    }
+db.once("open", () => console.log("Connected to MongoDB"));
+//
 
-}
-run().catch(console.dir);
+
+
+const User = require('./models/User');
+const Employee = require('./models/Employee');
+
+
+
+
 
 
 
@@ -48,12 +43,26 @@ app.use(express.json());
 
 
 
-//
+// End Middleware
 
 
+
+// Routes
 
 const userRoute = require('./routers/userRoute')
 app.use('/api', userRoute);
+
+
+// End Routes
+
+
+
+
+
+
+
+
+
 
 
 app.listen(port_number, () => {

@@ -13,3 +13,6 @@ temp/
 
 # Windows
 Thumbs.db
+
+# Configuration
+config.js
