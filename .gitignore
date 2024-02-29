@@ -17,5 +17,5 @@ Thumbs.db
 # Configuration
 config.js
 
-
+# env
 .env
