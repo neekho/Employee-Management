@@ -1,0 +1,17 @@
+GET  http://localhost:4000/employees 
+Authorization: Bearer
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5MjIyMDE1LCJleHAiOjE3MDkyMjIwMzB9.S_n5RXe6kHJTQCdYthoxskEn3yPsvKNm4lcfDRhQL58
+
+
+
+
+###
+
+
+POST http://localhost:3000/login 
+Content-Type: application/json
+
+{
+    "email": "john.doe@example.com",
+    "password": "adminexample@"
+}

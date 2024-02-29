@@ -41,6 +41,10 @@ app.post('/login', async (req, res) => {
         // Find the user based on the email
         const user = await User.findOne({email: email});
 
+        if (email.length == 0|| password.length == 0) {
+            return res.status(400).json({message: 'check user input pls' });
+        }
+
         if (!user) {
             return res.status(404).json({message: 'User not found' });
         }
@@ -77,6 +81,6 @@ function generateAccessToken(payload) {
 
 
 app.listen(port_number, () => {
-    console.log(`Server is running on http://localhost:${port_number}`);
+    console.log(`auth server is running on http://localhost:${port_number}`);
 
 });
