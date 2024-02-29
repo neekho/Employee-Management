@@ -1,31 +1,17 @@
+require('dotenv').config();
+
 const express = require('express');
 
-const app = express()
+const app = express();
 
 const port_number = 4000;
 
+const jwt = require('jsonwebtoken');
 
 // PORT 3000 - auth server
 // PORT 4000 - management server
 
 
-
-// MongoDB Atlas connection via driver and a string connection
-// connection string is in config, and is not included in commits.
-const config = require('./config');
-
-const mongoose = require('mongoose');
-// mongoose.set("strictQuery", false);
-// mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-
-// let db = mongoose.connection;
-
-
-// db.on("error", console.error.bind(console, 'MongoDB error connection'));
-
-// db.once("open", () => console.log("Connected to MongoDB"));
-//
 
 
 
@@ -37,6 +23,30 @@ const mongoose = require('mongoose');
 // Middleware
 app.use(express.json());
 
+
+// This will check or verify the bearer token of a signed in user?
+// the token was generate by generateAccessToken(payload) in authServer.js
+// if the authentication failed, the request wont go through it will send a 401 unauthorized
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      console.log(err)
+      if (err) return res.sendStatus(403)
+      req.user = user
+
+
+    //   console.log(user)
+
+    //   console.log('\n\n\n');
+
+    //   console.log(req.user)
+
+      next()
+    })
+  }
 
 
 
@@ -74,22 +84,17 @@ const employees = [
 
 
 app.get('/employees', authenticateToken, (req, res) => {
-    res.json(employees.filter(post => post.created_by === req.user.email))
+    console.log('TEST');
+
+    const createdBy = req.user.email;
+    console.log(req.user);
+
+    const userEmployees = employees.filter(employee => employee.created_by === createdBy);
+
+    res.status(200).json(userEmployees);
 })
 
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-  
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      console.log(err)
-      if (err) return res.sendStatus(403)
-      req.user = user
-      next()
-    })
-  }
 
 // Routes
 
@@ -98,12 +103,6 @@ app.use('/api', userRoute);
 
 
 // End Routes
-
-
-
-
-
-
 
 
 
