@@ -61,6 +61,10 @@ Download all of these to get started. _Please also install packages used, this c
 
 * [NodeJS](https://nodejs.org/en/download/)
 * [Express](https://expressjs.com/en/starter/installing.html)
+* [monogodb](https://expressjs.com/en/starter/installing.html)
+* [mongoose](https://expressjs.com/en/starter/installing.html)
+* [bcrypt](https://expressjs.com/en/starter/installing.html)
+* [jsonwebtoken](https://expressjs.com/en/starter/installing.html)
 
 
 ### Installation
