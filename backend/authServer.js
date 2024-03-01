@@ -16,6 +16,8 @@ const port_number = 3000;
 // Model
 const User = require('./models/User');
 
+
+////
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
 mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -29,6 +31,30 @@ db.on("error", console.error.bind(console, 'MongoDB error connection'));
 db.once("open", () => console.log("Connected to MongoDB"));
 app.use(express.json());
 
+//////
+
+
+
+
+let refreshTokens = []
+
+app.post('/token', (req, res) => {
+    const refreshToken = req.body.token;
+
+    if (refreshToken == null) return res.sendStatus(401)
+
+    if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        const accessToken = generateAccessToken({ userId: user.userId, email: user.email, role: user.role });
+        res.json({ accessToken: accessToken });
+    });
+
+
+
+});
 
 
 app.post('/login', async (req, res) => {
@@ -61,8 +87,13 @@ app.post('/login', async (req, res) => {
 
         ///////////////////////////
         // to learn
+
+        // once logged in, give user a access token (for them use on other requests)
+        // and a refresh token, for handling access token expiration
         const accessToken = generateAccessToken({ userId: user._id, email: user.email, role: user.role });
         const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_TOKEN_SECRET);
+
+        refreshTokens.push(refreshToken);
 
         res.send({accessToken : accessToken, refreshToken: refreshToken });
     } catch (error) {
@@ -76,7 +107,7 @@ app.post('/login', async (req, res) => {
 
 
 function generateAccessToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '35s' });
 }
 
 

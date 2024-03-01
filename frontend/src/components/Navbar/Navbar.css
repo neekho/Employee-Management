@@ -1,0 +1,5 @@
+.navbar {
+    
+    @apply p-5 shadow-lg flex justify-around;
+
+}
