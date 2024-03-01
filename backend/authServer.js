@@ -1,14 +1,15 @@
 require('dotenv').config();
+const config = require('./config');
 
 const express = require('express');
 const app = express();
-const config = require('./config');
+const port_number = 3000;
+
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-const port_number = 3000;
 
 
 
@@ -17,7 +18,6 @@ const port_number = 3000;
 const User = require('./models/User');
 
 
-////
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
 mongoose.connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -27,8 +27,8 @@ let db = mongoose.connection;
 
 
 db.on("error", console.error.bind(console, 'MongoDB error connection'));
-
 db.once("open", () => console.log("Connected to MongoDB"));
+
 app.use(express.json());
 
 //////
@@ -86,7 +86,7 @@ app.post('/token', async (req, res) => {
                 return res.sendStatus(403);
             }
 
-            console.log('User Information from Refresh Token:', user);
+            // console.log('User Information from Refresh Token:', user);
 
 
             // If verification is successful, generate a new access token
@@ -127,15 +127,16 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({message: 'Invalid password' });
         }
 
-
         ///////////////////////////
         // to learn
 
         // once logged in, give user a access token (for them use on other requests)
         // and a refresh token, for handling access token expiration
-        const accessToken = generateAccessToken({ userId: user._id, email: user.email, role: user.role });
-        const refreshToken = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.REFRESH_TOKEN_SECRET);
 
+        const userPayload = { userId: user._id, email: user.email, role: user.role }; // get user info
+
+        const accessToken = generateAccessToken(userPayload);
+        const refreshToken = generateRefreshToken(userPayload);
 
         // save to db the refresh token
         storeRefreshTokenInDatabase(user._id, refreshToken);
@@ -153,6 +154,10 @@ app.post('/login', async (req, res) => {
 
 function generateAccessToken(payload) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '35s' });
+}
+
+function generateRefreshToken(payload) {
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
 }
 
 
