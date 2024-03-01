@@ -33,28 +33,73 @@ app.use(express.json());
 
 //////
 
+// Schema for storing refresh tokens, associate the refresh tokens to its users
+const refreshTokenSchema = new mongoose.Schema({
+    userId: { type: String, required: true },
+    refreshToken: { type: String, required: true },
+});
+
+const RefreshTokenModel = mongoose.model('RefreshToken', refreshTokenSchema);
+
+function storeRefreshTokenInDatabase(userId, refreshToken) {
+
+    const refreshTokenModel = new RefreshTokenModel({ 
+        
+        userId, 
+        refreshToken
+    
+    
+    
+    });
+    refreshTokenModel.save();
+}
 
 
 
-let refreshTokens = []
+async function isRefreshTokenValid(userId, refreshToken) {
+    const tokenDocument = await RefreshTokenModel.findOne({ userId, refreshToken });
+    return !!tokenDocument;
+}
 
-app.post('/token', (req, res) => {
+async function removeRefreshTokenFromDatabase(refreshToken) {
+    await RefreshTokenModel.deleteOne({ refreshToken });
+}
+
+
+
+app.post('/token', async (req, res) => {
     const refreshToken = req.body.token;
 
-    if (refreshToken == null) return res.sendStatus(401)
+    if (refreshToken == null) return res.sendStatus(401);
 
-    if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+    try {
+        // Check if the refresh token exists in the database
+        const tokenDocument = await RefreshTokenModel.findOne({ refreshToken });
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (!tokenDocument) {
+            return res.sendStatus(403);
+        }
 
-        const accessToken = generateAccessToken({ userId: user.userId, email: user.email, role: user.role });
-        res.json({ accessToken: accessToken });
-    });
+        // Verify the refresh token against the secret
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+
+            console.log('User Information from Refresh Token:', user);
 
 
-
+            // If verification is successful, generate a new access token
+            const accessToken = generateAccessToken({ userId: user.userId, email: user.email, role: user.role });
+            res.json({ accessToken: accessToken });
+        });
+        
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
 });
+
 
 
 app.post('/login', async (req, res) => {
@@ -82,8 +127,6 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({message: 'Invalid password' });
         }
 
-        // If the password matches, you can send the user information
-        // res.json(user);
 
         ///////////////////////////
         // to learn
@@ -91,9 +134,11 @@ app.post('/login', async (req, res) => {
         // once logged in, give user a access token (for them use on other requests)
         // and a refresh token, for handling access token expiration
         const accessToken = generateAccessToken({ userId: user._id, email: user.email, role: user.role });
-        const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_TOKEN_SECRET);
+        const refreshToken = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.REFRESH_TOKEN_SECRET);
 
-        refreshTokens.push(refreshToken);
+
+        // save to db the refresh token
+        storeRefreshTokenInDatabase(user._id, refreshToken);
 
         res.send({accessToken : accessToken, refreshToken: refreshToken });
     } catch (error) {
