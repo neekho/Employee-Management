@@ -44,10 +44,10 @@ A RESTful Employee Management web application built with MERN stack.
 ### Built With
 
 
-* [![nodejs.com][nodejs.com]][NODEJS-URL]
-* [![expressjs.com][expressjs.com]][EXPRESS-URL]
 * [![mongodb.com][mongodb.com]][MONGODB-URL]
-
+* [![expressjs.com][expressjs.com]][EXPRESS-URL]
+* [![react.dev][react.dev]][React-url]
+* [![nodejs.com][nodejs.com]][NODEJS-URL]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -201,7 +201,7 @@ Don't forget to give the project a star! Thanks again!
 [product-screenshot]: images/screenshot.png
 
 
-[nodejs.com]: https://img.shields.io/badge/node-74a867?style=for-the-badge&logo=node&logoColor=white
+[nodejs.com]: https://img.shields.io/badge/nodejs-74a867?style=for-the-badge&logo=nodejs&logoColor=white
 [NODEJS-URL]: https://nodejs.org/en
 
 
@@ -211,5 +211,5 @@ Don't forget to give the project a star! Thanks again!
 [mongodb.com]: https://img.shields.io/badge/mongodb-32a852?style=for-the-badge&logo=mongodb&logoColor=white
 [MONGODB-URL]: https://www.mongodb.com/cloud/atlas/lp/try4?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_core_prosp-brand_gic-null_apac-ph_ps-all_desktop_eng_lead&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=12212624359&adgroup=115749710543&cq_cmp=12212624359&gad_source=1&gclid=CjwKCAiAibeuBhAAEiwAiXBoJFEks3P9gPBahanfK_zudnNu9bZoU3Gid6wCerA7qfBjIlZmmkUmAxoC5RAQAvD_BwE
 
-[PostgreSQL.org]: https://img.shields.io/badge/PostgreSQL-33415E?style=for-the-badge&logo=postgresql&logoColor=white
-[PostgreSQL-url]: https://www.postgresql.org
+[React.dev]: https://img.shields.io/badge/React-478eff?style=for-the-badge&logo=react&logoColor=white
+[React-url]: https://react.dev
