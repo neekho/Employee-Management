@@ -74,17 +74,19 @@ _Once installed, open a command prompt, choose your directory wherein you want t
 
 1. Clone the repo
    ```sh
-   C:\Users\PC> git clone https://github.com/neekho/Express-E-Commerce-API.git
+   C:\Users\PC> git clone https://github.com/neekho/Employee-Management.git
    ```
 2. Go to the project folder
    ```sh
-   C:\Users\PC> cd Express-E-Commerce-API.git (the base project folder name)
+   C:\Users\PC> cd EmployeeManagement
    ```
 3. Open the project using your preferred editor
    
 4. Install all necessary packages, refer to packages.json
    
 5. Run the command node index.js to start the server locally.
+   
+6. In another terminal, run the authServer.js using node authServer.js 
 
 
 _Once the local server is running, open up a browser and go to http://localhost:4000/utils/routes
