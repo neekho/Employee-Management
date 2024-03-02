@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const userDocument = require('./User');
-const { use } = require('moongose/routes');
 
 
 const Schema = mongoose.Schema;
@@ -35,6 +34,11 @@ const employeeDocument = new Schema({
     department: {
         type: String,
         required: [false, "department key"]
+    },
+
+    active: {
+        type: Boolean,
+        default: true
     },
 
     user: { 
