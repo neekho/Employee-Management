@@ -12,94 +12,58 @@ const jwt = require('jsonwebtoken');
 // PORT 4000 - management server
 
 
-
-
-
-
-
-
-
-
 // Middleware
-app.use(express.json());
-
 
 // This will check or verify the bearer token of a signed in user?
 // the token was generate by generateAccessToken(payload) in authServer.js
 // if the authentication failed, the request wont go through it will send a 401 unauthorized
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-  
+const authenticateToken = (req, res, next) => {
+    
+    const authHeader = req.headers['authorization'];
+    
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (token == null) return res.sendStatus(401);
+    
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      console.log(err)
-      if (err) return res.sendStatus(403)
-      req.user = user
+        
+        console.log(err);
+        console.log('err above me')
 
-
-    //   console.log(user)
-
-    //   console.log('\n\n\n');
-
-    //   console.log(req.user)
-
-      next()
+        if (err) return res.sendStatus(403);
+        
+        req.user = user;
+        
+        
+        //   console.log(user)
+        
+        //   console.log('\n\n\n');
+        
+        //   console.log(req.user)
+        
+        next()
     })
-  }
+}
 
 
 
-
+app.use(express.json());
+app.use(authenticateToken);
 
 // End Middleware
 
 
 
-const employees = [
-    {
-
-        created_by: "john.doe@example.com",
-        username: 'Kyle',
-        title: 'Post 1'
-    },
-
-
-    {
-        created_by: "john.doe@example.com",
-        username: 'Jim',
-        title: 'Post 2'
-    },
-
-    
-    {
-        created_by: "hamilton.doe@example.com",
-        username: 'Jim',
-        title: 'Post 2'
-    }
-
-
-]
-
-
-
-app.get('/employees', authenticateToken, (req, res) => {
-    console.log('TEST');
-
-    const createdBy = req.user.email;
-    console.log(req.user);
-
-    const userEmployees = employees.filter(employee => employee.created_by === createdBy);
-
-    res.status(200).json(userEmployees);
-})
-
 
 
 // Routes
 
-const userRoute = require('./routers/userRoute')
-app.use('/api', userRoute);
+const userRoute = require('./routers/userRoute');
+app.use('/user', userRoute);
+
+const employeeRoute = require('./routers/employeeRoute');
+app.use('/emp', authenticateToken, employeeRoute);
+
 
 
 // End Routes
@@ -110,5 +74,10 @@ app.use('/api', userRoute);
 
 app.listen(port_number, () => {
     console.log(`Server is running on http://localhost:${port_number}`);
-
+    
 });
+
+
+
+// Export middleware authenticateToken
+module.exports = { authenticateToken };

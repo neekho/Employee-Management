@@ -32,13 +32,16 @@ db.once("open", () => console.log("Connected to MongoDB"));
 app.use(express.json());
 
 // Timer for cleaning up stored refresh tokens
-const refreshTokenExpirationTime = 15 * 60 * 1000; // 15 minutes in milliseconds
+const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
+
 
 // Schema for storing refresh tokens, associate the refresh tokens to its users
 const refreshTokenSchema = new mongoose.Schema({
     userId: { type: String, required: true },
 
     refreshToken: { type: String, required: true },
+
+    expiresAt: { type: Date, required: true },
 });
 
 
@@ -114,14 +117,23 @@ app.post('/token', async (req, res) => {
 
 
 
-app.delete('/logout', (req, res) => {
-    const refreshToken = req.body.token; // Assuming you send the refresh token in the request body
+app.delete('/logout', async (req, res) => {
+    const refreshToken = req.body.token; 
   
-    // Remove the refresh token from the database
-    // Example: RefreshTokenModel.deleteOne({ refreshToken });
-    // Alternatively, you can mark the token as invalidated in the database
-    // and use it in your cleanup process.
+    if (!refreshToken) {
+        return res.status(400).json({ message: 'Refresh token is required for logout.' });
+    }
     
+    try {
+        // Remove the refresh token from the database
+        await RefreshTokenModel.deleteOne({ refreshToken });
+
+        res.sendStatus(204); // Successful logout
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
     res.sendStatus(204); // Successful logout
   });
 
@@ -184,7 +196,7 @@ function generateAccessToken(payload) {
 }
 
 function generateRefreshToken(payload) {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '5m' });
 }
 
 
@@ -193,7 +205,9 @@ function generateRefreshToken(payload) {
 async function removeExpiredRefreshTokens() {
     try {
         const currentDateTime = new Date();
+
         await RefreshTokenModel.deleteMany({ expiresAt: { $lte: currentDateTime } });
+
         console.log('Expired refresh tokens removed.');
     } catch (error) {
         console.error('Error removing expired refresh tokens:', error);
@@ -201,11 +215,9 @@ async function removeExpiredRefreshTokens() {
 }
 
 
-setInterval(() => {
-    removeExpiredRefreshTokens();
-},  refreshTokenExpirationTime)
-
-
+setInterval(async () => {
+    await removeExpiredRefreshTokens();
+}, refreshTokenExpirationTime);
 
 
 
@@ -215,3 +227,6 @@ app.listen(port_number, () => {
     console.log(`auth server is running on http://localhost:${port_number}`);
 
 });
+
+
+

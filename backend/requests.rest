@@ -1,5 +1,5 @@
 GET  http://localhost:4000/employees 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5MzA3MzA1LCJleHAiOjE3MDkzMDczNDB9.i-AqMreKhwMNyDK9E-5hrQlfeQfXNR-AfElS-2FQSbE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5Mzc3OTUyLCJleHAiOjE3MDkzNzc5ODd9.PPVTl7YKSXkC0tqPfK9HRoIrT04XuNqS8BDi5Jk4n2U
 
 
 ###
@@ -8,12 +8,20 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5MzA3MjY1fQ._IoXmrp8ZDBCpLk2Jrms5-_ZgA5TZqKcQcem5Rho0Dk"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5Mzc1NjQ5LCJleHAiOjE3MDkzNzU5NDl9.8GIa7PGbDZ80CByXpbYQT76TB5lu04zmtjJrGr62twc"
+}
+
+
+### removes the associated refresh token to the user who will logouut
+DELETE http://localhost:3000/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5Mzc3OTUyLCJleHAiOjE3MDkzNzgyNTJ9.1xubR-Xo94o1uDZ_OIj2hzO5dIV77YnDJtxZCHPuhgo"
 }
 
 
 ###
-
 POST http://localhost:3000/login 
 Content-Type: application/json
 
@@ -21,3 +29,14 @@ Content-Type: application/json
     "email": "john.doe@example.com",
     "password": "adminexample@"
 }
+
+
+
+
+
+
+
+
+### 
+GET http://localhost:4000/emp/employees
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5MzgzNjkxLCJleHAiOjE3MDkzODM3MjZ9.WZXNK-V_jHM-MBpotroeKdPW-QiOhKa9NvJIvh1O_jw

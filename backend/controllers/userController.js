@@ -6,8 +6,7 @@ const User = require('../models/User')
 const Employee = require('../models/Employee')
 
 
-// john.doe@example.com
-// adminexample@
+
 
 module.exports.test = (req, res) => {
     res.send('Test');
