@@ -37,17 +37,17 @@
 ![All Requests Screenshot](./assets/project_screenshots/all_requests.PNG)
 ![Project Structure Screenshot](./assets/project_screenshots/project_structure.PNG)
 
-A RESTful Employee Management web application built with MERN stack.
+A RESTful E-Commerce API that is built on Express and MongoDB Atlas. Project contains user, product, and order services to accomodate possible users.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
 
-* [![mongodb.com][mongodb.com]][MONGODB-URL]
-* [![expressjs.com][expressjs.com]][EXPRESS-URL]
-* [![react.dev][react.dev]][React-url]
 * [![nodejs.com][nodejs.com]][NODEJS-URL]
+* [![expressjs.com][expressjs.com]][EXPRESS-URL]
+* [![mongodb.com][mongodb.com]][MONGODB-URL]
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -61,10 +61,10 @@ Download all of these to get started. _Please also install packages used, this c
 
 * [NodeJS](https://nodejs.org/en/download/)
 * [Express](https://expressjs.com/en/starter/installing.html)
-* [monogodb](https://www.mongodb.com)
-* [mongoose](https://mongoosejs.com)
-* [bcrypt](https://www.npmjs.com/package/bcrypt)
-* [jsonwebtoken](https://jwt.io)
+* [monogodb](https://expressjs.com/en/starter/installing.html)
+* [mongoose](https://expressjs.com/en/starter/installing.html)
+* [bcrypt](https://expressjs.com/en/starter/installing.html)
+* [jsonwebtoken](https://expressjs.com/en/starter/installing.html)
 
 
 ### Installation
@@ -74,19 +74,17 @@ _Once installed, open a command prompt, choose your directory wherein you want t
 
 1. Clone the repo
    ```sh
-   C:\Users\PC> git clone https://github.com/neekho/Employee-Management.git
+   C:\Users\PC> git clone https://github.com/neekho/Express-E-Commerce-API.git
    ```
 2. Go to the project folder
    ```sh
-   C:\Users\PC> cd EmployeeManagement
+   C:\Users\PC> cd Express-E-Commerce-API.git (the base project folder name)
    ```
 3. Open the project using your preferred editor
    
 4. Install all necessary packages, refer to packages.json
    
 5. Run the command node index.js to start the server locally.
-   
-6. In another terminal, run the authServer.js using node authServer.js 
 
 
 _Once the local server is running, open up a browser and go to http://localhost:4000/utils/routes
@@ -144,9 +142,10 @@ ________________________________________________________________________________
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] React side of the project
-- [ ] User interface
-- [ ] CRUD operations in employees
+- [ ] JWT in making requests
+- [ ] Login and logout
+- [ ] Hash user passwords
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -201,7 +200,7 @@ Don't forget to give the project a star! Thanks again!
 [product-screenshot]: images/screenshot.png
 
 
-[nodejs.com]: https://img.shields.io/badge/nodejs-74a867?style=for-the-badge&logo=nodejs&logoColor=white
+[nodejs.com]: https://img.shields.io/badge/node-74a867?style=for-the-badge&logo=node&logoColor=white
 [NODEJS-URL]: https://nodejs.org/en
 
 
@@ -211,5 +210,5 @@ Don't forget to give the project a star! Thanks again!
 [mongodb.com]: https://img.shields.io/badge/mongodb-32a852?style=for-the-badge&logo=mongodb&logoColor=white
 [MONGODB-URL]: https://www.mongodb.com/cloud/atlas/lp/try4?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_core_prosp-brand_gic-null_apac-ph_ps-all_desktop_eng_lead&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=12212624359&adgroup=115749710543&cq_cmp=12212624359&gad_source=1&gclid=CjwKCAiAibeuBhAAEiwAiXBoJFEks3P9gPBahanfK_zudnNu9bZoU3Gid6wCerA7qfBjIlZmmkUmAxoC5RAQAvD_BwE
 
-[React.dev]: https://img.shields.io/badge/React-478eff?style=for-the-badge&logo=react&logoColor=white
-[React-url]: https://react.dev
+[PostgreSQL.org]: https://img.shields.io/badge/PostgreSQL-33415E?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreSQL-url]: https://www.postgresql.org
