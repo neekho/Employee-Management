@@ -30,6 +30,11 @@ module.exports.createUser = (req, res) => {
 };
 
 
+module.exports.test = (req, res) => {
+    res.send('i am alive');
+}
+
+
 
 
 

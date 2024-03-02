@@ -1,5 +1,4 @@
 require('dotenv').config();
-const config = require('./config');
 
 const express = require('express');
 const app = express();
@@ -35,7 +34,7 @@ db.on("error", console.error.bind(console, 'MongoDB error connection'));
 db.once("open", () => console.log("Connected to MongoDB"));
 
 app.use(express.json());
-app.use(cors);
+// app.use(cors);
 
 // Timer for cleaning up stored refresh tokens
 const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
@@ -134,7 +133,6 @@ app.delete('/logout', async (req, res) => {
         // Remove the refresh token from the database
         await RefreshTokenModel.deleteOne({ refreshToken });
 
-        res.sendStatus(204); // Successful logout
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
