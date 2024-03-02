@@ -37,7 +37,7 @@
 ![All Requests Screenshot](./assets/project_screenshots/all_requests.PNG)
 ![Project Structure Screenshot](./assets/project_screenshots/project_structure.PNG)
 
-A RESTful E-Commerce API that is built on Express and MongoDB Atlas. Project contains user, product, and order services to accomodate possible users.
+A RESTful Employee Management web application built with MERN stack.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -61,10 +61,10 @@ Download all of these to get started. _Please also install packages used, this c
 
 * [NodeJS](https://nodejs.org/en/download/)
 * [Express](https://expressjs.com/en/starter/installing.html)
-* [monogodb](https://expressjs.com/en/starter/installing.html)
-* [mongoose](https://expressjs.com/en/starter/installing.html)
-* [bcrypt](https://expressjs.com/en/starter/installing.html)
-* [jsonwebtoken](https://expressjs.com/en/starter/installing.html)
+* [monogodb](https://www.mongodb.com)
+* [mongoose](https://mongoosejs.com)
+* [bcrypt](https://www.npmjs.com/package/bcrypt)
+* [jsonwebtoken](https://jwt.io)
 
 
 ### Installation
@@ -142,10 +142,9 @@ ________________________________________________________________________________
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] JWT in making requests
-- [ ] Login and logout
-- [ ] Hash user passwords
-
+- [ ] React side of the project
+- [ ] User interface
+- [ ] CRUD operations in employees
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
