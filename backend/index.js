@@ -14,14 +14,6 @@ const cors = require('cors');
 // PORT 4000 - management server
 
 
-
-
-
-
-
-
-
-
 // Middleware
 // This will check or verify the bearer token of a signed in user?
 // the token was generate by generateAccessToken(payload) in authServer.js
@@ -57,7 +49,7 @@ const authenticateToken = (req, res, next) => {
 
 
 app.use(express.json());
-app.use(authenticateToken);
+// app.use(authenticateToken);
 app.use(cors);
 // End Middleware
 

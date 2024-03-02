@@ -1,5 +1,5 @@
 require('dotenv').config();
-const config = require('./config');
+const config = require('../config');
 
 const express = require('express');
 const app = express();
@@ -12,6 +12,8 @@ const cors = require('cors');
 
 
 
+app.use(express.json());
+app.use(cors);
 
 
 
@@ -23,7 +25,7 @@ const mongoose = require('mongoose');
 
 mongoose.set("strictQuery", false);
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(config.mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -34,8 +36,6 @@ let db = mongoose.connection;
 db.on("error", console.error.bind(console, 'MongoDB error connection'));
 db.once("open", () => console.log("Connected to MongoDB"));
 
-app.use(express.json());
-app.use(cors);
 
 // Timer for cleaning up stored refresh tokens
 const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds

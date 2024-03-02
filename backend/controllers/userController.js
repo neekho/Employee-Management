@@ -32,6 +32,13 @@ module.exports.createUser = (req, res) => {
 
 
 
+module.exports.live = (req, res) => {
+    res.send('the server is alive?');
+};
+
+
+
+
 
 
 
