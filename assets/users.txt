@@ -1,0 +1,6 @@
+{
+    "email": "nikho.remulla@example.com",
+    "password": "softdev12@",
+    "role": "superadmin"
+
+}

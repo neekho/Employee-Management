@@ -7,7 +7,6 @@ const port_number = 3000;
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 
 
 
@@ -25,7 +24,11 @@ mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+
 });
+
+
+
 
 let db = mongoose.connection;
 
@@ -33,8 +36,10 @@ let db = mongoose.connection;
 db.on("error", console.error.bind(console, 'MongoDB error connection'));
 db.once("open", () => console.log("Connected to MongoDB"));
 
+
+
+
 app.use(express.json());
-// app.use(cors);
 
 // Timer for cleaning up stored refresh tokens
 const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
@@ -225,6 +230,9 @@ setInterval(async () => {
 
 
 
+
+const userRoute = require('../backend/routers/userRoute');
+app.use('/testing', userRoute);
 
 
 app.listen(port_number, () => {

@@ -7,8 +7,11 @@ module.exports.createUser = (req, res) => {
     try {
 
         let newUser = new User({
+
             email: req.body.email,
+
             password: req.body.password,
+
             role: req.body.role,
         });
 

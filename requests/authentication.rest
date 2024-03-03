@@ -7,7 +7,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5Mzc1NjQ5LCJleHAiOjE3MDkzNzU5NDl9.8GIa7PGbDZ80CByXpbYQT76TB5lu04zmtjJrGr62twc"
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzA5NDc2MjcyLCJleHAiOjE3MDk0NzY1NzJ9.lTPnBAT-noSII2TNzQ0t36Ci5UWDH0yXJ0I1_JGFWmc"
 }
 
 ### removes the associated refresh token to the user who will logouut 

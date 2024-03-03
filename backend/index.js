@@ -59,8 +59,8 @@ app.use(express.json());
 
 // Routes
 
-const userRoute = require('./routers/userRoute');
-app.use('/user', userRoute);
+// const userRoute = require('./routers/userRoute');
+// app.use('/user', userRoute);
 
 const employeeRoute = require('./routers/employeeRoute');
 app.use('/emp', employeeRoute);
@@ -80,5 +80,3 @@ app.listen(port_number, () => {
 
 
 
-// // Export middleware authenticateToken
-// module.exports = { authenticateToken };
