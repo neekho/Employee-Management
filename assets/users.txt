@@ -4,3 +4,17 @@
     "role": "superadmin"
 
 }
+
+
+
+
+
+
+async function isRefreshTokenValid(userId, refreshToken) {
+    const tokenDocument = await RefreshTokenModel.findOne({ userId, refreshToken });
+    return !!tokenDocument;
+}
+
+async function removeRefreshTokenFromDatabase(refreshToken) {
+    await RefreshTokenModel.deleteOne({ refreshToken });
+}

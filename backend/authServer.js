@@ -7,61 +7,57 @@ const port_number = 3000;
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-
-
-
-
-
-// Model
-const User = require('./models/User');
-
-
 const mongoose = require('mongoose');
 
-mongoose.set("strictQuery", false);
 
+// Models
+const User = require('./models/User');
+const Employee = require('./models/Employee');
+
+// Schema for storing refresh tokens, associate the refresh tokens to its users
+const RefreshTokenModel = require('./models/RefreshToken');
+
+
+
+app.use(express.json());
+
+
+// Establish MongoDB Atlas connection
+mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 
 });
 
-
-
-
 let db = mongoose.connection;
-
-
 db.on("error", console.error.bind(console, 'MongoDB error connection'));
 db.once("open", () => console.log("Connected to MongoDB"));
 
 
 
 
-app.use(express.json());
 
 // Timer for cleaning up stored refresh tokens
 const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
 
+function generateAccessToken(payload) {
+    // 35 SECONDS EXPIRATION FOR ACCESS TOKENS (FOR DEMO)
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '55s' });
+}
 
-// Schema for storing refresh tokens, associate the refresh tokens to its users
-const refreshTokenSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
+function generateRefreshToken(payload) {
+    // 5 MIN EXPIRATION FOR REFRESH TOKENS
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '5m' });
+}
 
-    refreshToken: { type: String, required: true },
-
-    expiresAt: { type: Date, required: true },
-});
-
-
-// Set document
-const RefreshTokenModel = mongoose.model('RefreshToken', refreshTokenSchema);
 
 function storeRefreshTokenInDatabase(userId, refreshToken) {
+    // Associate a user with a refresh token
+    // expiresAt sets the removal of the refresh token
+    // so that, users wont have infinite access to access token.
 
     const refreshTokenModel = new RefreshTokenModel({ 
-        
         userId, 
         refreshToken,
         expiresAt: new Date(new Date().getTime() + refreshTokenExpirationTime), // Set expiration time
@@ -72,25 +68,7 @@ function storeRefreshTokenInDatabase(userId, refreshToken) {
 
 
 
-async function isRefreshTokenValid(userId, refreshToken) {
-    const tokenDocument = await RefreshTokenModel.findOne({ userId, refreshToken });
-    return !!tokenDocument;
-}
-
-async function removeRefreshTokenFromDatabase(refreshToken) {
-    await RefreshTokenModel.deleteOne({ refreshToken });
-}
-
-
-
-
-
-
-
-
-
-
-
+// Generates a new access token, provided the refresh token in the request body.
 app.post('/token', async (req, res) => {
     const refreshToken = req.body.token;
 
@@ -152,8 +130,6 @@ app.delete('/logout', async (req, res) => {
 
 app.post('/login', async (req, res) => {
 
-    // Authenticate user
-
     try {
         const {email, password} = req.body;
 
@@ -161,7 +137,7 @@ app.post('/login', async (req, res) => {
         const user = await User.findOne({email: email});
 
         if (email.length == 0|| password.length == 0) {
-            return res.status(400).json({message: 'check user input pls' });
+            return res.status(401).json({message: 'check user input pls' });
         }
 
         if (!user) {
@@ -175,9 +151,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({message: 'Invalid password' });
         }
 
-        ///////////////////////////
         // to learn
-
         // once logged in, give user a access token (for them use on other requests)
         // and a refresh token, for handling access token expiration
 
@@ -200,13 +174,39 @@ app.post('/login', async (req, res) => {
 });
 
 
-function generateAccessToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '35s' });
-}
 
-function generateRefreshToken(payload) {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '5m' });
-}
+
+
+
+
+
+
+// require bearer token
+const middleware = require('./middleware');
+
+
+
+// Application routes
+const userRoute = require('../backend/routers/userRoute');
+app.use('/user', middleware.authenticateToken, userRoute);
+
+
+const employeeRoute = require('../backend/routers/employeeRoute');
+app.use('/employee', employeeRoute);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -223,20 +223,12 @@ async function removeExpiredRefreshTokens() {
     } 
 }
 
-
 setInterval(async () => {
     await removeExpiredRefreshTokens();
 }, refreshTokenExpirationTime);
 
-
-
-
-const userRoute = require('../backend/routers/userRoute');
-app.use('/testing', userRoute);
-
-
 app.listen(port_number, () => {
-    console.log(`auth server is running on http://localhost:${port_number}`);
+    console.log(`server is running on http://localhost:${port_number}`);
 
 });
 
