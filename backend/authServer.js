@@ -187,12 +187,12 @@ const middleware = require('./middleware');
 
 
 // Application routes
-const userRoute = require('../backend/routers/userRoute');
+const userRoute = require('./routers/userRoute');
 app.use('/user', middleware.authenticateToken, userRoute);
 
 
-const employeeRoute = require('../backend/routers/employeeRoute');
-app.use('/employee', employeeRoute);
+const employeeRoute = require('./routers/employeeRoute');
+app.use('/employee', middleware.authenticateToken, employeeRoute);
 
 
 

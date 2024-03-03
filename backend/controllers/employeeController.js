@@ -36,5 +36,11 @@ module.exports.createEmployee = (req, res) => {
 
 
 module.exports.employees = (req, res) => {
-    res.send('gzdfgdrfg');
+
+    Employee.find({ active: true })
+    .populate('user', 'email password role') // Populate the 'user' field with the specified fields
+    .exec()
+    .then(result => res.send(result))
+    .catch(error => res.send(error));
+
 };

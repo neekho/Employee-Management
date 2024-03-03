@@ -1,0 +1,59 @@
+hey chatgpt. i want to create an employee "account"
+in my system, i have a User and Employee models.
+
+User.js
+const userDocument = new mongoose.Schema({
+
+    email: {
+        type: String,
+        required: [true, "email is required"]
+    },
+
+    password: {
+        type: String,
+        required: [true, "password is required"]
+    },
+
+
+});
+
+Employee.js
+
+const employeeDocument = new mongoose.Schema({
+
+    firstName: {
+        type: String,
+        required: [true, "first name is required"]
+    },
+
+    user: { 
+        type: Schema.Types.ObjectId, 
+        ref: userDocument
+    
+    }
+
+
+})
+
+the user key will associate the User information. How can i make a route that will make the process like appear that the registration process is only one step?
+
+
+
+
+
+
+
+My model is set up like this: 
+User.js, and Employee.js  In the Employee schema, the user is being passed by an object ObjectId
+
+now i have a controller:
+
+module.exports.employees = (req, res) => {
+
+    Employee.find({active: true})
+    .then(result => res.send(result))
+    .catch(error => res.send(error))
+
+};
+
+How can i also get the Employees, email and password and role?
