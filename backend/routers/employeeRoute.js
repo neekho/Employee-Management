@@ -12,8 +12,8 @@ router.post('/add', employeeController.createEmployee)
 router.get('/employees', employeeController.employees);
 
 
-//update 
-
+//update employee
+router.put('/update/:id', employeeController.updateEmployee);
 
 // soft delete an employee
 router.delete('/delete/:id', employeeController.archiveEmployee)

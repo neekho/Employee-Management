@@ -1,36 +1,35 @@
 const Employee = require('../models/Employee')
 
 
-module.exports.createEmployee = (req, res) => {
 
-    let newEmployee = new Employee({
 
-        firstName: req.body.firstName,
+module.exports.createEmployee = async (req, res) => {
+    const { firstName, lastName, contactNumber, position, active } = req.body;
 
-        lastName: req.body.lastName,
+    const existingEmployee = await Employee.findOne({firstName: firstName, lastName: lastName });
 
-        contactNumber: req.body.contactNumber,
+    if (existingEmployee) {
+        return res.status(400).json({ error: 'Employee with the same name already exists' });
+    }
 
-        position: req.body.position,
-
-        active: req.body.active !== undefined ? req.body.active : true,
-
-        // user: req.body.user,
-
+    // If no existing employee, create a new one
+    const newEmployee = new Employee({
+        firstName,
+        lastName,
+        contactNumber,
+        position,
+        active: active !== undefined ? active : true,
     });
 
-    console.log(newEmployee);
-
     // Save the new employee to the database
-    newEmployee.save()
-        .then(savedEmployee => {
-            res.status(201).json(savedEmployee);
-        })
-        .catch(error => {
-            res.status(500).json({ error: error });
-        });
-
+    try {
+        const savedEmployee = await newEmployee.save();
+        res.status(201).json(savedEmployee);
+    } catch (error) {
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
+    }
 };
+
 
 
 
@@ -44,7 +43,6 @@ module.exports.employees = (req, res) => {
     // .catch(error => res.send(error));
 
 
-    
     Employee.find({ active: true })
     .then(result => res.send(result))
     .catch(error => res.send(error));
@@ -53,11 +51,45 @@ module.exports.employees = (req, res) => {
 
 
 
+module.exports.updateEmployee = (req, res) => {
+    const { firstName, lastName, contactNumber, position, active } = req.body;
+
+
+    // router.put('/update/:id', employeeController.updateEmployee);
+    // params.id it should match. with our place holder in routers.
+    const employeeId = req.params.id;
+    // console.log(employeeId);
+
+
+    const updateFields = {
+        firstName,
+        lastName,
+        contactNumber,
+        position,
+        active: active !== undefined ? active : true,
+    };
+
+    // Use the findByIdAndUpdate method to update the employee
+    // Set the new option to true to return the modified document
+    Employee.findByIdAndUpdate(employeeId, updateFields, { new: true })
+        .then(updatedEmployee => {
+            if (!updatedEmployee) {
+                return res.status(404).json({ error: 'Employee not found' });
+            }
+            res.status(200).json(updatedEmployee);
+        })
+        .catch(error => {
+            res.status(500).json({ error: error.message || 'Internal Server Error' });
+        });
+};
+
+
+
+
+
 module.exports.archiveEmployee = (req , res) => {
 
     const employeeID = req.params.id;
-
-    console.log(employeeID);
 
     let update = {active: false};
 
