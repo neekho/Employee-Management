@@ -74,11 +74,11 @@ _Once installed, open a command prompt, choose your directory wherein you want t
 
 1. Clone the repo
    ```sh
-   C:\Users\PC> git clone https://github.com/neekho/Express-E-Commerce-API.git
+   C:\Users\PC> git clone https://github.com/neekho/Employee-Management.git
    ```
 2. Go to the project folder
    ```sh
-   C:\Users\PC> cd Express-E-Commerce-API.git (the base project folder name)
+   C:\Users\PC> cd EmployeeManagement
    ```
 3. Open the project using your preferred editor
    
