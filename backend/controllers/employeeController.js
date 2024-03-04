@@ -15,7 +15,7 @@ module.exports.createEmployee = (req, res) => {
 
         active: req.body.active !== undefined ? req.body.active : true,
 
-        user: req.body.user,
+        // user: req.body.user,
 
     });
 
@@ -37,10 +37,34 @@ module.exports.createEmployee = (req, res) => {
 
 module.exports.employees = (req, res) => {
 
+    // Employee.find({ active: true })
+    // .populate('user', 'email password role') // Populate the 'user' field with the specified fields
+    // .exec()
+    // .then(result => res.send(result))
+    // .catch(error => res.send(error));
+
+
+    
     Employee.find({ active: true })
-    .populate('user', 'email password role') // Populate the 'user' field with the specified fields
-    .exec()
     .then(result => res.send(result))
     .catch(error => res.send(error));
+
+};
+
+
+
+module.exports.archiveEmployee = (req , res) => {
+
+    const employeeID = req.params.id;
+
+    console.log(employeeID);
+
+    let update = {active: false};
+
+    Employee.findByIdAndUpdate(employeeID, update, {new: true})
+    .then(result => res.send(result))
+    .catch(error => res.send(error))
+
+    console.log('employee archived');
 
 };
