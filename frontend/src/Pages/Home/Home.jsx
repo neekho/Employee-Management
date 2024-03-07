@@ -1,16 +1,7 @@
 import React from "react";
-
-// Layout
-import GuestLayout from "../../components/Layout/GuestLayout";
-
-import "./Home.css";
-
+import GuestLayout from "../../Layouts/GuestLayout";
 const Home = () => {
-  return (
-    <GuestLayout>
-      <h1>Home</h1>
-    </GuestLayout>
-  );
+  return <GuestLayout className="content-container">Home</GuestLayout>;
 };
 
 export default Home;

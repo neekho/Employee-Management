@@ -1,5 +1,7 @@
 .navbar {
-    
-    @apply p-5 shadow-lg flex justify-around;
+  @apply container mx-auto flex justify-between p-5;
+}
 
+.nav-links {
+  @apply space-x-2;
 }

@@ -1,0 +1,27 @@
+.table-container {
+  @apply min-h-screen w-full rounded-md py-5 text-white;
+}
+
+.table-header tr > th {
+  @apply bg-[#252525] p-5 text-start;
+}
+
+.table-header tr > th:first-child {
+  @apply rounded-l-md;
+}
+
+.table-header tr > th:last-child {
+  @apply rounded-r-md;
+}
+
+.table-body tr > td {
+  @apply bg-[#181818] p-5 mt-2;
+}
+
+.table-control {
+  @apply flex justify-end;
+}
+
+.table-adduser {
+  @apply p-3 bg-violet-500 rounded-md mb-2;
+}

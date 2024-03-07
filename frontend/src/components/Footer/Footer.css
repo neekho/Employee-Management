@@ -1,0 +1,11 @@
+.footer {
+  @apply container mx-auto flex justify-between p-5  text-white;
+}
+
+.company-name h1 {
+  @apply font-bold text-xl;
+}
+
+.footer-links {
+  @apply space-x-2;
+}
