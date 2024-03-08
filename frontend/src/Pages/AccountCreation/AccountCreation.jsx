@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+// Layout
 import GuestLayout from "../../Layouts/GuestLayout";
 
-import "./AdminRegister.css";
+// Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const AdminRegister = () => {
+// CSS
+import "../AdminRegister/AdminRegister.css";
+
+const AccountCreation = () => {
   const [hide, setHide] = useState(true);
 
   const toggleVisibility = () => {
@@ -18,39 +24,37 @@ const AdminRegister = () => {
     <GuestLayout>
       <div className="signup-page">
         <div className="signup-heading ">
-          <h1 className="">Create an employee</h1>
+          <h1 className="">Get's Started.</h1>
+          <p>
+            Already have an account?
+            <Link to="/login" className="ms-1 text-violet-500">
+              Login Here!
+            </Link>
+          </p>
 
           <form action="" className="signup-form">
-            <label className="mt-4" htmlFor="Firstname">
-              Firstname
-            </label>
-            <input
-              id="firstname"
-              type="text"
-              name="Firstname"
-              placeholder="Enter your first name"
-              autoComplete="off"
-            />
-            <label className="mt-4" htmlFor="Lastname">
-              Lastname
-            </label>
-            <input
-              id="lastname"
-              type="text"
-              name="Lastname"
-              placeholder="Enter your last name"
-              autoComplete="off"
-            />
-            <label className="mt-4" htmlFor="email">
+            <label className="mt-4" htmlFor="Email">
               Email
             </label>
             <input
               id="email"
               type="email"
-              name="email"
-              placeholder="Enter your Email"
+              name="Email"
+              placeholder="Enter email"
               autoComplete="off"
             />
+
+            <label className="mt-4" htmlFor="Role">
+              Role
+            </label>
+            <input
+              id="role"
+              type="text"
+              name="Role"
+              placeholder="Enter role"
+              autoComplete="off"
+            />
+
             <label htmlFor="password">Password</label>
             <div className="relative">
               <input
@@ -84,7 +88,7 @@ const AdminRegister = () => {
               />
             </div>
             <button className="submit" type="submit">
-              Sign up
+              Create
             </button>
           </form>
         </div>
@@ -93,4 +97,4 @@ const AdminRegister = () => {
   );
 };
 
-export default AdminRegister;
+export default AccountCreation;
