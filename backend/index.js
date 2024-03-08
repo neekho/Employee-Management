@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port_number = 4000;
 
@@ -16,7 +17,11 @@ const Employee = require("./models/Employee");
 const RefreshTokenModel = require("./models/RefreshToken");
 
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 // Establish MongoDB Atlas connection
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URI, {
@@ -60,7 +65,7 @@ function storeRefreshTokenInDatabase(userId, refreshToken) {
 
 // Generates a new access token, provided the refresh token in the request body.
 app.post("/token", async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.body.refreshToken; // from body.token changed to //refreshToken
 
   if (refreshToken == null) return res.sendStatus(401);
 

@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+// layout
 import GuestLayout from "../../Layouts/GuestLayout";
+
+// css
+import "./Login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-import "./Login.css";
+// Backend service
+import apiService from "../../apiService";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const [hide, setHide] = useState(true);
 
   const toggleVisibility = () => {
@@ -15,12 +25,36 @@ const Login = () => {
     });
   };
 
+  const handleLogin = async () => {
+    try {
+      const response = await apiService.post("/login", { email, password });
+      const { accessToken, refreshToken } = response.data;
+
+      console.log(email);
+      console.log(password);
+
+      console.log(accessToken);
+      console.log(refreshToken);
+
+      // Store tokens in localStorage or sessionStorage
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      navigate("/dashboard");
+
+      // Redirect or update state as needed
+    } catch (error) {
+      // Handle login failure
+      console.error("Login failed", error);
+    }
+  };
+
   return (
     <GuestLayout>
       <div className="login-page">
         <div className="login-heading ">
           <h1 className="">Login</h1>
-          <form action="" className="login-form">
+          <form action="/login" method="POST" className="login-form">
             <label className="mt-4" htmlFor="email">
               Email
             </label>
@@ -30,6 +64,8 @@ const Login = () => {
               name="email"
               placeholder="Enter your Email"
               autoComplete="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // update the email state on change
             />
             <label htmlFor="password">Password</label>
             <div className="relative">
@@ -39,6 +75,8 @@ const Login = () => {
                 name="password"
                 placeholder="Enter your password"
                 autoComplete="off"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // update the email state on change
               />
 
               <FontAwesomeIcon
@@ -47,7 +85,7 @@ const Login = () => {
                 onClick={toggleVisibility}
               />
             </div>
-            <button className="submit" type="submit">
+            <button className="submit" type="submit" onClick={handleLogin}>
               Login
             </button>
           </form>
