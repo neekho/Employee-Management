@@ -4,9 +4,14 @@ const router = express.Router();
 
 const employeeController = require('../controllers/employeeController')
 
+const verifyJWT = require("../middleware/verifyJWT");
+router.use(verifyJWT);
+
+
+
 
 // create a new employee
-router.post('/add', employeeController.createEmployee)
+router.post('/add', employeeController.createEmployee);
 
 // select all active employees
 router.get('/employees', employeeController.employees);
@@ -16,7 +21,7 @@ router.get('/employees', employeeController.employees);
 router.put('/update/:id', employeeController.updateEmployee);
 
 // soft delete an employee
-router.delete('/delete/:id', employeeController.archiveEmployee)
+router.delete('/delete/:id', employeeController.archiveEmployee);
 
 
 
