@@ -1,5 +1,4 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const accessToken = localStorage.getItem("accessToken");

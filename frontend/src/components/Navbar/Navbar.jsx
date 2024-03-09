@@ -6,12 +6,12 @@ const Navbar = () => {
   return (
     <nav className="shadow-xl bg-[#181818] text-white">
       <div className="navbar">
-        <Link to="/" className="logo">
+        <Link to="/dashboard" className="logo">
           CompanyName
         </Link>
-        <div className="nav-links">
+        {/* <div className="nav-links">
           <Link to="/login">Login</Link>
-        </div>
+        </div> */}
       </div>
     </nav>
   );

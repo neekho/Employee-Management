@@ -22,6 +22,10 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
+
+
+
 // Establish MongoDB Atlas connection
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URI, {
@@ -39,14 +43,14 @@ const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
 function generateAccessToken(payload) {
   // 35 SECONDS EXPIRATION FOR ACCESS TOKENS (FOR DEMO)
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "55s",
+    expiresIn: "10m",
   });
 }
 
 function generateRefreshToken(payload) {
   // 5 MIN EXPIRATION FOR REFRESH TOKENS
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "15m",
   });
 }
 
@@ -62,6 +66,16 @@ function storeRefreshTokenInDatabase(userId, refreshToken) {
   });
   refreshTokenModel.save();
 }
+
+
+
+
+
+
+
+
+
+
 
 // Generates a new access token, provided the refresh token in the request body.
 app.post("/token", async (req, res) => {
@@ -100,7 +114,7 @@ app.post("/token", async (req, res) => {
 });
 
 app.delete("/logout", async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.body.refreshToken;
 
   if (!refreshToken) {
     return res
@@ -141,7 +155,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    // to learn
+
     // once logged in, give user a access token (for them use on other requests)
     // and a refresh token, for handling access token expiration
 
@@ -149,7 +163,7 @@ app.post("/login", async (req, res) => {
       userId: user._id,
       email: user.email,
       role: user.role,
-    }; // get user info
+    };
 
     const accessToken = generateAccessToken(userPayload);
     const refreshToken = generateRefreshToken(userPayload);
@@ -164,6 +178,17 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
 // require bearer token
 const middleware = require("./middleware");
 
@@ -173,6 +198,17 @@ app.use("/user", middleware.authenticateToken, userRoute);
 
 const employeeRoute = require("./routers/employeeRoute");
 app.use("/employee", middleware.authenticateToken, employeeRoute);
+
+
+
+
+
+
+
+
+
+
+
 
 async function removeExpiredRefreshTokens() {
   try {

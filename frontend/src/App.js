@@ -32,14 +32,19 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          {!localStorage.getItem("accessToken") && (
-            <Route path="/" element={<Login />} />
-          )}
+          {/* {!localStorage.getItem("accessToken") && (
+            <Route path="/dashboard" element={<Login />} />
+          )} */}
           <Route path="/" element={<Login />} />
-          <Route path="/register" element={<AccountCreation />} />
-
           <Route path="/login" element={<Login />} />
+
+
+
+          <Route path="/register" element={<AccountCreation />} />
+          
           <Route path="/new" element={<RegisterEmployee />} />
+
+
           <Route
             path="/dashboard"
             element={

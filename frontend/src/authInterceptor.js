@@ -1,11 +1,10 @@
 import axios from "axios";
 
+// authInterceptor.js
 const authInterceptor = (accessToken) => {
   axios.interceptors.request.use(
     (config) => {
       config.headers.Authorization = `Bearer ${accessToken}`;
-      console.log(accessToken);
-      console.log(config);
       return config;
     },
     (error) => {

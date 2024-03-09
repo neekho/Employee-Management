@@ -30,13 +30,13 @@ const Login = () => {
       const response = await apiService.post("/login", { email, password });
       const { accessToken, refreshToken } = response.data;
 
-      console.log(email);
-      console.log(password);
+      console.log("Login successful!");
+      console.log("Email:", email);
+      console.log("Password:", password);
+      console.log("AccessToken:", accessToken);
+      console.log("RefreshToken:", refreshToken);
 
-      console.log(accessToken);
-      console.log(refreshToken);
-
-      // Store tokens in localStorage or sessionStorage
+      // Store tokens in localStorage
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
