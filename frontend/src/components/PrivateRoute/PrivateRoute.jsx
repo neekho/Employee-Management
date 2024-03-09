@@ -4,7 +4,7 @@ const PrivateRoute = ({ children }) => {
   const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
-    return <Navigate to="/login" replace />; // replace prevents infinite loops
+    return <Navigate to="/" replace />; // replace prevents infinite loops
   }
 
   return children;

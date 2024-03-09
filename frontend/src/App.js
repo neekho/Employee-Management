@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import AccountCreation from "./Pages/AccountCreation/AccountCreation";
@@ -7,56 +8,27 @@ import RegisterEmployee from "./Pages/AdminRegister/AdminRegister";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 
 // Routing and redirecting
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
 
-import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import EditUser from "./Pages/employees/EditEmployee";
+import EmployeesList from "./Pages/employees/EmployeesList";
 
-// Access token handling
-import authInterceptor from "./authInterceptor";
+import Prefetch from "./Pages/auth/Prefetch";
 
-const App = () => {
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-
-    if (accessToken) {
-      authInterceptor(accessToken);
-    }
-  }, []);
-
+function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          {/* {!localStorage.getItem("accessToken") && (
-            <Route path="/dashboard" element={<Login />} />
-          )} */}
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+    <Routes>
+      <Route path="" element={<Login />} />
 
+      <Route element={<Prefetch />} />
+      <Route path="/dashboard" element={<EmployeesList />} />
 
-
-          <Route path="/register" element={<AccountCreation />} />
-          
-          <Route path="/new" element={<RegisterEmployee />} />
-
-
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </>
+      <Route path="employees">
+        <Route index element={<EmployeesList />} />
+        {/* <Route path="update/:id" element={<EditEmployee />} />
+        <Route path="/new" element={<NewUserForm />} /> */}
+      </Route>
+    </Routes>
   );
-};
+}
 
 export default App;

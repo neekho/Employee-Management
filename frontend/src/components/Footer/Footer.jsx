@@ -12,8 +12,8 @@ const Footer = () => {
           </h1>
         </div>
         <div className="footer-links">
-          <a href="">Contact</a>
-          <a href="">About Me</a>
+          {/* <a href="#">Contact</a>
+          <a href="#">About Me</a> */}
         </div>
       </div>
     </footer>

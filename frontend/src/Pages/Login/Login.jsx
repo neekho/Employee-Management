@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../auth/authSlice";
+import { useLoginMutation } from "../auth/authApiSlice";
 
 // layout
 import GuestLayout from "../../Layouts/GuestLayout";
@@ -9,52 +13,75 @@ import "./Login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-// Backend service
-import apiService from "../../apiService";
-
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const [hide, setHide] = useState(true);
-
   const toggleVisibility = () => {
     setHide((prevState) => {
       return !prevState;
     });
   };
 
-  const handleLogin = async () => {
+  const [hide, setHide] = useState(true);
+
+  const userRef = useRef();
+  const errRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading, isSuccess }] = useLoginMutation();
+
+  useEffect(() => {
+    userRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await apiService.post("/login", { email, password });
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken } = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ accessToken }));
+      setEmail("");
+      setPassword("");
 
-      console.log("Login successful!");
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("AccessToken:", accessToken);
-      console.log("RefreshToken:", refreshToken);
-
-      // Store tokens in localStorage
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-
-      navigate("/dashboard");
-
-      // Redirect or update state as needed
-    } catch (error) {
-      // Handle login failure
-      console.error("Login failed", error);
+      if (isSuccess) navigate("/dashboard");
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg(err.data?.message);
+      }
+      errRef.current?.focus();
     }
   };
+
+  const handleEmailInput = (e) => setEmail(e.target.value);
+  const handlePwdInput = (e) => setPassword(e.target.value);
+
+  const errClass = errMsg ? "errmsg" : "offscreen";
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <GuestLayout>
       <div className="login-page">
         <div className="login-heading ">
           <h1 className="">Login</h1>
-          <form action="/login" method="POST" className="login-form">
+
+          <p ref={errRef} className={errClass} aria-live="assertive">
+            {errMsg}
+          </p>
+
+          <form className="login-form" method="POST" onSubmit={handleSubmit}>
             <label className="mt-4" htmlFor="email">
               Email
             </label>
@@ -63,9 +90,9 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Enter your Email"
-              autoComplete="off"
+              autoComplete="on"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // update the email state on change
+              onChange={handleEmailInput} // update the email state on change
             />
             <label htmlFor="password">Password</label>
             <div className="relative">
@@ -76,7 +103,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 autoComplete="off"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} // update the email state on change
+                onChange={handlePwdInput} // update the email state on change
               />
 
               <FontAwesomeIcon
@@ -85,9 +112,12 @@ const Login = () => {
                 onClick={toggleVisibility}
               />
             </div>
-            <button className="submit" type="submit" onClick={handleLogin}>
+
+            <button className="submit" type="submit">
               Login
             </button>
+
+            {isLoading && <p>Loading...</p>}
           </form>
         </div>
       </div>
