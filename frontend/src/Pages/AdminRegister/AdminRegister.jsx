@@ -28,7 +28,7 @@ const AdminRegister = () => {
               id="firstname"
               type="text"
               name="Firstname"
-              placeholder="Enter your first name"
+              placeholder="Enter first name"
               autoComplete="off"
             />
             <label className="mt-4" htmlFor="Lastname">
@@ -38,53 +38,44 @@ const AdminRegister = () => {
               id="lastname"
               type="text"
               name="Lastname"
-              placeholder="Enter your last name"
+              placeholder="Enter last name"
               autoComplete="off"
             />
-            <label className="mt-4" htmlFor="email">
-              Email
+            <label className="mt-4" htmlFor="contact">
+              Contact Number
             </label>
             <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Enter your Email"
+              id="contact"
+              type="number"
+              name="contact"
+              placeholder="Enter contact number"
               autoComplete="off"
             />
-            <label htmlFor="password">Password</label>
-            <div className="relative">
-              <input
-                id="password"
-                type={hide ? "password" : "text"}
-                name="password"
-                placeholder="Enter your password"
-                autoComplete="off"
-              />
 
-              <FontAwesomeIcon
-                className="absolute top-0 right-0 p-3 text-xl text-violet-500"
-                icon={hide ? faEyeSlash : faEye}
-                onClick={toggleVisibility}
-              />
-            </div>
-            <label htmlFor="retype_password">Retype Password</label>
-            <div className="relative">
-              <input
-                id="retype_password"
-                type={hide ? "password" : "text"}
-                name="retype_password"
-                placeholder="Enter your password"
-                autoComplete="off"
-              />
+            <label className="mt-4" htmlFor="position">
+              Position
+            </label>
+            <input
+              id="position"
+              type="text"
+              name="position"
+              placeholder="Enter employee role"
+              autoComplete="off"
+            />
 
-              <FontAwesomeIcon
-                className="absolute top-0 right-0 p-3 text-xl text-violet-500"
-                icon={hide ? faEyeSlash : faEye}
-                onClick={toggleVisibility}
-              />
-            </div>
+            <label className="mt-4" htmlFor="department">
+              Department
+            </label>
+            <input
+              id="department"
+              type="text"
+              name="department"
+              placeholder="Enter employee department"
+              autoComplete="off"
+            />
+
             <button className="submit" type="submit">
-              Sign up
+              Create
             </button>
           </form>
         </div>

@@ -4,14 +4,12 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port_number = 4000;
+const path = require("path");
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
-// Models
-const User = require("./models/User");
-const Employee = require("./models/Employee");
+const { logger, logEvents } = require("./middleware/logger");
+const errorHandler = require("./middleware/errorHandler");
 
 // Schema for storing refresh tokens, associate the refresh tokens to its users
 const RefreshTokenModel = require("./models/RefreshToken");
@@ -22,9 +20,8 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
-
-
+app.use(logger);
+app.use(errorHandler);
 
 // Establish MongoDB Atlas connection
 mongoose.set("strictQuery", false);
@@ -34,181 +31,38 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 let db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB error connection"));
+
+db.on("error", (err) => {
+  console.log(err);
+  logEvents(
+    `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoErrLog.log"
+  );
+});
+
 db.once("open", () => console.log("Connected to MongoDB"));
 
-// Timer for cleaning up stored refresh tokens
-const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
-
-function generateAccessToken(payload) {
-  // 35 SECONDS EXPIRATION FOR ACCESS TOKENS (FOR DEMO)
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
-  });
-}
-
-function generateRefreshToken(payload) {
-  // 5 MIN EXPIRATION FOR REFRESH TOKENS
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "15m",
-  });
-}
-
-function storeRefreshTokenInDatabase(userId, refreshToken) {
-  // Associate a user with a refresh token
-  // expiresAt sets the removal of the refresh token
-  // so that, users wont have infinite access to access token.
-
-  const refreshTokenModel = new RefreshTokenModel({
-    userId,
-    refreshToken,
-    expiresAt: new Date(new Date().getTime() + refreshTokenExpirationTime), // Set expiration time
-  });
-  refreshTokenModel.save();
-}
-
-
-
-
-
-
-
-
-
-
-
-// Generates a new access token, provided the refresh token in the request body.
-app.post("/token", async (req, res) => {
-  const refreshToken = req.body.refreshToken; // from body.token changed to //refreshToken
-
-  if (refreshToken == null) return res.sendStatus(401);
-
-  try {
-    // Check if the refresh token exists in the database
-    const tokenDocument = await RefreshTokenModel.findOne({ refreshToken });
-
-    if (!tokenDocument) {
-      return res.sendStatus(403);
-    }
-
-    // Verify the refresh token against the secret
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-
-      // console.log('User Information from Refresh Token:', user);
-
-      // If verification is successful, generate a new access token
-      const accessToken = generateAccessToken({
-        userId: user.userId,
-        email: user.email,
-        role: user.role,
-      });
-      res.json({ accessToken: accessToken });
-    });
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
-});
-
-app.delete("/logout", async (req, res) => {
-  const refreshToken = req.body.refreshToken;
-
-  if (!refreshToken) {
-    return res
-      .status(400)
-      .json({ message: "Refresh token is required for logout." });
-  }
-
-  try {
-    // Remove the refresh token from the database
-    await RefreshTokenModel.deleteOne({ refreshToken });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-
-  res.sendStatus(204); // Successful logout
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Find the user based on the email
-    const user = await User.findOne({ email: email });
-
-    if (email.length == 0 || password.length == 0) {
-      return res.status(401).json({ message: "check user input pls" });
-    }
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Compare the provided password with the hashed password stored in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-
-
-    // once logged in, give user a access token (for them use on other requests)
-    // and a refresh token, for handling access token expiration
-
-    const userPayload = {
-      userId: user._id,
-      email: user.email,
-      role: user.role,
-    };
-
-    const accessToken = generateAccessToken(userPayload);
-    const refreshToken = generateRefreshToken(userPayload);
-
-    // save to db the refresh token
-    storeRefreshTokenInDatabase(user._id, refreshToken);
-
-    res.send({ accessToken: accessToken, refreshToken: refreshToken });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal server error", error });
-  }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-// require bearer token
-const middleware = require("./middleware");
-
 // Application routes
+
+const authRoute = require("./routers/authRoute");
+app.use("/", authRoute);
+
 const userRoute = require("./routers/userRoute");
-app.use("/user", middleware.authenticateToken, userRoute);
+app.use("/user", userRoute);
 
 const employeeRoute = require("./routers/employeeRoute");
-app.use("/employee", middleware.authenticateToken, employeeRoute);
+app.use("/employee", employeeRoute);
 
-
-
-
-
-
-
-
-
-
-
+app.all("*", (req, res) => {
+  res.status(404);
+  if (req.accepts("html")) {
+    res.sendFile(path.join(__dirname, "views", "404.html"));
+  } else if (req.accepts("json")) {
+    res.json({ message: "404 Not Found" });
+  } else {
+    res.type("txt").send("404 Not Found");
+  }
+});
 
 async function removeExpiredRefreshTokens() {
   try {
@@ -223,6 +77,9 @@ async function removeExpiredRefreshTokens() {
     console.error("Error removing expired refresh tokens:", error);
   }
 }
+
+// Timer for cleaning up stored refresh tokens
+const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
 
 setInterval(async () => {
   await removeExpiredRefreshTokens();

@@ -10,10 +10,8 @@ import EmployeeCard from "../../Components/EmployeeCard/EmployeeCard.jsx";
 import { useNavigate } from "react-router-dom";
 
 import apiService from "../../apiService.js";
-import authInterceptor from "../../authInterceptor.js";
 
 import "./Dashboard.css";
-import data from "./Data.js";
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -60,13 +58,8 @@ const Dashboard = () => {
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      // Handle errors appropriately (e.g., display user-friendly message)
     }
   };
-
-  function displayEmployees(info, index) {
-    return <EmployeeCard key={index} {...info} />;
-  }
 
   return (
     <AuthenticatedLayout>
