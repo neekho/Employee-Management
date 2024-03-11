@@ -15,6 +15,7 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
+  const [activeEmployees, setActiveEmployees] = useState([]); // Filtered list
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,8 +27,6 @@ const Dashboard = () => {
           },
         });
 
-        // console.log(`${localStorage.getItem("accessToken")}`);
-        // console.log(localStorage.getItem("refreshToken"));
 
         // Update the state with the response data
         setEmployees(response.data);
@@ -39,6 +38,32 @@ const Dashboard = () => {
     // Call the function to fetch employees
     fetchEmployees();
   }, []); // Empty dependency array to ensure the effect runs only once
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await apiService.get("/employee/employees", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        // Update the state with the response data
+        setEmployees(response.data); // Update all employees too
+
+        // Filter active employees only after updating employees state
+        setActiveEmployees(employees.filter((employee) => employee._id !== _id));
+        
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      }
+    };
+
+    // This dependency array ensures the effect runs whenever `employees` state changes
+    fetchEmployees(); // Call the function initially
+  }, [employees]); // Dependency on `employees` state
+
+
 
   const handleLogout = async () => {
     try {

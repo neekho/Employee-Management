@@ -1,22 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+
 
 import apiService from "../../apiService";
 
-const handleDelete = async (id) => {
-  if (window.confirm(`Are you sure you want to delete this employee? ${id}`)) {
+const handleDelete = async (_id) => {
+
+
+  if (window.confirm(`Are you sure you want to delete this employee? ${_id}`)) {
     try {
-      const response = await apiService.get(`/employee/delete/${id}`, {
+      const response = await apiService.delete(`/employee/delete/${_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
 
-      
+      console.log(localStorage.getItem("accessToken"));
 
       console.log(response.data);
       console.log('user deleted')
+
     } 
     
     catch (err) {
@@ -35,6 +38,9 @@ const EmployeeCard = ({
   department,
   active,
 }) => {
+
+  
+
   return (
     // Your existing code
     <>
@@ -50,16 +56,16 @@ const EmployeeCard = ({
 
         <td className="space-x-2">
           {/* string formmating */}
-          <Link className="bg-yellow-500 p-3 rounded-md" to={`employee/edit/${_id}`}>
+          <button className="bg-yellow-500 p-3 rounded-md">
             Edit
-          </Link>
-          <Link
+          </button>
+          <button
             className="bg-red-500 p-3 rounded-md"
-            to={`employee/delete/${_id}`}
+      
             onClick={() => handleDelete(_id)}
           >
             Delete
-          </Link>
+          </button>
         </td>
       </tr>
     </>
