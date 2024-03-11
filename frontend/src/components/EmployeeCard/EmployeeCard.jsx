@@ -1,9 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import apiService from "../../apiService";
+
 const handleDelete = async (id) => {
   if (window.confirm(`Are you sure you want to delete this employee? ${id}`)) {
-    console.log("pressed");
+    try {
+      const response = await apiService.get(`/employee/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+
+      
+
+      console.log(response.data);
+      console.log('user deleted')
+    } 
+    
+    catch (err) {
+       console.log('error in deleting employee', err)
+
+    }
   }
 };
 
@@ -31,13 +50,13 @@ const EmployeeCard = ({
 
         <td className="space-x-2">
           {/* string formmating */}
-          <Link className="bg-yellow-500 p-3 rounded-md" to={`/edit/${_id}`}>
+          <Link className="bg-yellow-500 p-3 rounded-md" to={`employee/edit/${_id}`}>
             Edit
           </Link>
           <Link
             className="bg-red-500 p-3 rounded-md"
-            to={`/delete/${_id}`}
-            onClick={() => handleDelete(firstName)}
+            to={`employee/delete/${_id}`}
+            onClick={() => handleDelete(_id)}
           >
             Delete
           </Link>

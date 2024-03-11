@@ -26,8 +26,8 @@ const Dashboard = () => {
           },
         });
 
-        console.log(`${localStorage.getItem("accessToken")}`);
-        console.log(localStorage.getItem("refreshToken"));
+        // console.log(`${localStorage.getItem("accessToken")}`);
+        // console.log(localStorage.getItem("refreshToken"));
 
         // Update the state with the response data
         setEmployees(response.data);
