@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 // Layout
 import GuestLayout from "../../Layouts/GuestLayout";
 
@@ -8,10 +10,17 @@ import GuestLayout from "../../Layouts/GuestLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
+import apiService from "../../apiService";
 // CSS
 import "../AdminRegister/AdminRegister.css";
 
 const AccountCreation = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+
   const [hide, setHide] = useState(true);
 
   const toggleVisibility = () => {
@@ -20,19 +29,45 @@ const AccountCreation = () => {
     });
   };
 
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    const adminData = {
+      email,
+      password,
+      role,
+    };
+
+    try {
+      const response = await apiService.post("user/register", adminData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+      console.log("created admin:", response.data);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error in creating admin account", error);
+    }
+  };
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
+  const handleRole = (e) => setRole(e.target.value);
+
   return (
     <GuestLayout>
       <div className="signup-page">
         <div className="signup-heading ">
-          <h1 className="">Get's Started.</h1>
-          <p>
+          <h1 className="">Create admin</h1>
+          {/* <p>
             Already have an account?
-            <Link to="/login" className="ms-1 text-violet-500">
+            <Link to="/" className="ms-1 text-violet-500">
               Login Here!
             </Link>
-          </p>
+          </p> */}
 
-          <form action="" className="signup-form">
+          <form className="signup-form" method="POST" onSubmit={handleSignUp}>
             <label className="mt-4" htmlFor="Email">
               Email
             </label>
@@ -42,6 +77,8 @@ const AccountCreation = () => {
               name="Email"
               placeholder="Enter email"
               autoComplete="off"
+              value={email}
+              onChange={handleEmail}
             />
 
             <label className="mt-4" htmlFor="Role">
@@ -53,6 +90,8 @@ const AccountCreation = () => {
               name="Role"
               placeholder="Enter role"
               autoComplete="off"
+              value={role}
+              onChange={handleRole}
             />
 
             <label htmlFor="password">Password</label>
@@ -63,6 +102,8 @@ const AccountCreation = () => {
                 name="password"
                 placeholder="Enter your password"
                 autoComplete="off"
+                value={password}
+                onChange={handlePassword}
               />
 
               <FontAwesomeIcon

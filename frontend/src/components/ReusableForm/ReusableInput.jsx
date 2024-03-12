@@ -18,6 +18,7 @@ const ReusableInput = ({
         id={id}
         type={type}
         name={name}
+        required={true}
         placeholder={placeholder}
         autoComplete="off"
         value={value}

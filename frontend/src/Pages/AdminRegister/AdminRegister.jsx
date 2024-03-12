@@ -110,7 +110,7 @@ const AdminRegister = () => {
             </label>
             <input
               id="contact"
-              type="number"
+              type="tel"
               name="contact"
               placeholder="Enter contact number"
               autoComplete="off"

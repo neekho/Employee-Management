@@ -4,25 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import apiService from "../../apiService";
 
-const handleDelete = async (_id) => {
-  if (window.confirm(`Are you sure you want to delete this employee? ${_id}`)) {
-    try {
-      const response = await apiService.delete(`/employee/delete/${_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
-
-      console.log(localStorage.getItem("accessToken"));
-
-      console.log(response.data);
-      console.log("user deleted");
-    } catch (err) {
-      console.log("error in deleting employee", err);
-    }
-  }
-};
-
 const EmployeeCard = ({
   _id,
   firstName,
@@ -36,6 +17,28 @@ const EmployeeCard = ({
 
   const handleUpdate = () => {
     navigate(`/update-employee/${_id}`); // Dynamically pass the employee ID
+  };
+
+  const handleDelete = async (_id) => {
+    if (
+      window.confirm(`Are you sure you want to delete this employee? ${_id}`)
+    ) {
+      try {
+        const response = await apiService.delete(`/employee/delete/${_id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        navigate("/dashboard");
+        console.log(localStorage.getItem("accessToken"));
+
+        console.log(response.data);
+        console.log("user deleted");
+      } catch (err) {
+        console.log("error in deleting employee", err);
+      }
+    }
   };
 
   return (

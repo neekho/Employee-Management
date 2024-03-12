@@ -31,10 +31,10 @@ const App = () => {
           {!localStorage.getItem("accessToken") && (
             <Route path="/dashboard" element={<Login />} />
           )}
+          <Route path="/register" element={<AccountCreation />} />
+
           <Route path="/" element={<Login />} />
           {/* <Route path="/login" element={<Login />} /> */}
-
-          <Route path="/register" element={<AccountCreation />} />
 
           <Route path="/new" element={<RegisterEmployee />} />
 

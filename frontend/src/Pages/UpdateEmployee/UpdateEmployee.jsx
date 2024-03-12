@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 
@@ -17,7 +17,7 @@ const UpdateEmployee = () => {
     department: "",
   });
 
-  console.log("EMPLOYEE DATA", employeeData);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -26,7 +26,7 @@ const UpdateEmployee = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        }); // Fetch employee details
+        });
 
         setEmployeeData(response.data); // Set initial values for form
         console.log("RESPONSE DATA: ", response.data);
@@ -37,7 +37,6 @@ const UpdateEmployee = () => {
     };
 
     if (employeeId) {
-      // Ensure employeeId exists before fetching
       fetchEmployee();
     }
   }, [employeeId]); // Dependency array to fetch only once
@@ -54,6 +53,7 @@ const UpdateEmployee = () => {
         }
       );
 
+      navigate("/dashboard");
       console.log("Employee updated successfully:", response.data);
     } catch (err) {
       console.error("Error in updating employee", err);

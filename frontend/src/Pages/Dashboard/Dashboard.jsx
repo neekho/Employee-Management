@@ -15,7 +15,6 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
-  const [activeEmployees, setActiveEmployees] = useState([]); // Filtered list
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +34,7 @@ const Dashboard = () => {
     };
 
     // Call the function to fetch employees
+    console.log("DASHBOARD LOG");
     fetchEmployees();
   }, [employees]); // Empty dependency array to ensure the effect runs only once
 
@@ -63,11 +63,15 @@ const Dashboard = () => {
     <AuthenticatedLayout>
       <div className="table-container">
         <div className="table-control">
+          <Link to="/register" className="table-adduser">
+            New Admin
+          </Link>
+
           <Link to="/new" className="table-adduser">
             Add User
           </Link>
 
-          <Link to="/login" className="table-adduser" onClick={handleLogout}>
+          <Link to="/" className="table-adduser" onClick={handleLogout}>
             Logout
           </Link>
         </div>

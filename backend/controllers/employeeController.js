@@ -47,7 +47,8 @@ module.exports.employees = (req, res) => {
 };
 
 module.exports.updateEmployee = (req, res) => {
-  const { firstName, lastName, contactNumber, position, active } = req.body;
+  const { firstName, lastName, contactNumber, position, department, active } =
+    req.body;
 
   // router.put('/update/:id', employeeController.updateEmployee);
   // params.id it should match. with our place holder in routers.
@@ -59,6 +60,7 @@ module.exports.updateEmployee = (req, res) => {
     lastName,
     contactNumber,
     position,
+    department,
     active: active !== undefined ? active : true,
   };
 
