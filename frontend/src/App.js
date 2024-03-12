@@ -5,14 +5,10 @@ import AccountCreation from "./Pages/AccountCreation/AccountCreation";
 import Login from "./Pages/Login/Login";
 import RegisterEmployee from "./Pages/AdminRegister/AdminRegister";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import UpdateEmployee from "./Pages/UpdateEmployee/UpdateEmployee";
 
 // Routing and redirecting
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
@@ -36,11 +32,16 @@ const App = () => {
             <Route path="/dashboard" element={<Login />} />
           )}
           <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} /> */}
 
           <Route path="/register" element={<AccountCreation />} />
 
           <Route path="/new" element={<RegisterEmployee />} />
+
+          <Route
+            path="/update-employee/:employeeId"
+            element={<UpdateEmployee />}
+          />
 
           <Route
             path="/dashboard"

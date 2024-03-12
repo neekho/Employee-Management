@@ -27,7 +27,6 @@ const Dashboard = () => {
           },
         });
 
-
         // Update the state with the response data
         setEmployees(response.data);
       } catch (error) {
@@ -37,33 +36,7 @@ const Dashboard = () => {
 
     // Call the function to fetch employees
     fetchEmployees();
-  }, []); // Empty dependency array to ensure the effect runs only once
-
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const response = await apiService.get("/employee/employees", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
-
-        // Update the state with the response data
-        setEmployees(response.data); // Update all employees too
-
-        // Filter active employees only after updating employees state
-        setActiveEmployees(employees.filter((employee) => employee._id !== _id));
-        
-      } catch (error) {
-        console.error("Error fetching employees:", error);
-      }
-    };
-
-    // This dependency array ensures the effect runs whenever `employees` state changes
-    fetchEmployees(); // Call the function initially
-  }, [employees]); // Dependency on `employees` state
-
-
+  }, [employees]); // Empty dependency array to ensure the effect runs only once
 
   const handleLogout = async () => {
     try {
@@ -80,7 +53,7 @@ const Dashboard = () => {
       console.log("Logout successful:", response.data);
 
       // 3. Redirect to login page:
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
     }

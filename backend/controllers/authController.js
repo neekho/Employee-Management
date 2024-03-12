@@ -4,21 +4,21 @@ const jwt = require("jsonwebtoken");
 
 const asyncHandler = require("express-async-handler");
 // Timer for cleaning up stored refresh tokens
-const refreshTokenExpirationTime = 5 * 60 * 1000; // 15 minutes in milliseconds
+const refreshTokenExpirationTime = 5 * 180 * 1000; // 15 minutes in milliseconds
 
 const RefreshTokenModel = require("../models/RefreshToken");
 
 function generateAccessToken(payload) {
   // 35 SECONDS EXPIRATION FOR ACCESS TOKENS (FOR DEMO)
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "30m",
   });
 }
 
 function generateRefreshToken(payload) {
   // 5 MIN EXPIRATION FOR REFRESH TOKENS
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "45m",
   });
 }
 

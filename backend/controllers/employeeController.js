@@ -87,3 +87,16 @@ module.exports.archiveEmployee = (req, res) => {
 
   console.log("employee archived");
 };
+
+module.exports.getEmployee = (req, res) => {
+  const employeeID = req.params.id;
+  Employee.findById(employeeID)
+    .then((result) => res.send(result))
+    .catch((error) => {
+      if (error.name == "CastError") {
+        return res.status(400).send({ error: "Invalid employee ID format" });
+      } else {
+        return res.status(500).send({ error: "Internal server error" });
+      }
+    });
+};

@@ -8,11 +8,14 @@ const employeeController = require("../controllers/employeeController");
 const verifyJWT = require("../middleware/verifyJWT");
 router.use(verifyJWT);
 
+router.get("/employees", employeeController.employees);
+// get specific employee
+router.get("/:id", employeeController.getEmployee);
+
 // create a new employee
 router.post("/add", employeeController.createEmployee);
 
 // select all active employees
-router.get("/employees", employeeController.employees);
 
 //update employee
 router.put("/update/:id", employeeController.updateEmployee);
