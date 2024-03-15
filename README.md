@@ -119,7 +119,7 @@ Refer here for all the list of available routes in the API. You should use Postm
 * [PUT Make User Admin](http://localhost:4000/user/make_administrator/{USER_ID}) _Turns a non-admin account into one, an admin credentials must be provided to the request body {"adminUserName": "a", "adminPassword": "ap"}, and a non admin USER ID to the URL_
 
 
-<h4>Product</h4>
+<h4>Employee</h4>
 
 * [GET Active Products](http://localhost:4000/product/active)  _Returns all products that are active. Disregards all inactive (or archived) products._
 * [GET Single Product by ID](http://localhost:4000/product/{PRODUCT_ID})  _Returns a product by ID. Provide a product ID to url_
@@ -128,7 +128,7 @@ Refer here for all the list of available routes in the API. You should use Postm
 
 
 
-<h4>Order</h4>
+<h4>Refresh Token</h4>
 
 * [POST Order Checkout](http://localhost:4000/order/checkout)  __
 
