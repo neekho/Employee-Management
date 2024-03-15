@@ -78,6 +78,11 @@ Download all of these to get started. _Please also install packages used, this c
 * [mongoose](https://mongoosejs.com/docs/)
 * [bcrypt](https://www.npmjs.com/package/bcrypt)
 * [jsonwebtoken](https://jwt.io)
+* [date-fns](https://www.npmjs.com/package/date-fns)
+* [express-async-handler-fns](https://www.npmjs.com/package/express-async-handler)
+* [uuid](https://www.npmjs.com/package/uuid)
+* [express-rate-limit](https://www.npmjs.com/package/express-rate-limit)
+
 
 
 ### Installation
