@@ -36,7 +36,7 @@ const Dashboard = () => {
     // Call the function to fetch employees
     console.log("DASHBOARD LOG");
     fetchEmployees();
-  }, [employees]); // Empty dependency array to ensure the effect runs only once
+  }, []); // Empty dependency array to ensure the effect runs only once
 
   const handleLogout = async () => {
     try {
