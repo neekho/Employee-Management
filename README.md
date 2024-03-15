@@ -32,14 +32,27 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+This project is a full-stack Employee Management System built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It provides a comprehensive solution for managing employee data within an organization. This project focuses on the backend API development for the Employee Management System. You can extend this project by building a React application for user interaction and data visualization.
+
+![Login](./assets/screenshots/login.PNG)
+![Dashboard](./assets/screenshots/dashboard.PNG)
+![AddEmployee](./assets/screenshots/new_employee.PNG)
+![UpdateEmployee](./assets/screenshots/update_employee.PNG)
 
 
-![All Requests Screenshot](./assets/project_screenshots/all_requests.PNG)
-![Project Structure Screenshot](./assets/project_screenshots/project_structure.PNG)
 
-A RESTful E-Commerce API that is built on Express and MongoDB Atlas. Project contains user, product, and order services to accomodate possible users.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Features
+1. Authentication: Users can register and log in using a secure JWT (JSON Web Token) based authentication system.
+2. CRUD Operations: The system allows creation (C), retrieval (R), update (U), and deletion (D) of employee data.
+3. Database: MongoDB is used to store employee information with Mongoose as an object data modeling (ODM) layer.
+4. Security: Bcrypt is used for password hashing to ensure secure storage of user credentials.
+5. Error & Request Logging: The backend implements logging for errors and incoming requests to facilitate troubleshooting and monitoring.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ### Built With
 
@@ -95,21 +108,9 @@ to see if the local server is up and running. Along with possible routes._
 
 ___________________________________________________________________________________________________
 
-### Routes
+### Backend Routes
 ![All Routes Screenshot](./assets/project_screenshots/all_routes.PNG)
 
-Go to _http://localhost:4000/utils/routes_ for a list of possible routes in the current version of this API, for a detailed version of what does each route do, go to API Routes section.
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-___________________________________________________________________________________________________
-
-
-### API Routes
-
-<h3>v1 Routes</h3>
-Refer here for all the list of available routes in the API. You should use Postman or Curl in testing the endpoints or other API testing tools.
 
 
 <h4>User</h4>
@@ -132,19 +133,22 @@ Refer here for all the list of available routes in the API. You should use Postm
 
 * [POST Order Checkout](http://localhost:4000/order/checkout)  __
 
-
+### Frontend Routes
+<h4>Authentication</h4>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 ___________________________________________________________________________________________________
 
 
 <!-- ROADMAP -->
 ## Roadmap
+ The MERN stack is well-suited for building scalable web applications.
+- [ ] Refine the backend API endpoints for specific requirements like filtering, sorting, and searching employees.
+- [ ] Implement unit and integration tests for the backend API.
 
-- [ ] JWT in making requests
-- [ ] Login and logout
-- [ ] Hash user passwords
 
 
 
