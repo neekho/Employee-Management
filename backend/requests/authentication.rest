@@ -1,0 +1,28 @@
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "email": "john.doe@example.com",
+    "password": "adminexample@"
+
+}
+
+###
+POST http://localhost:4000/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAwNTM1LCJleHAiOjE3MTA2MDMyMzV9.KdpnhyRU4kUPMo_32jhUz_7dH5fk4_OCtl0bGjYCdys"
+
+
+}
+
+###
+GET http://localhost:4000/refresh
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAxMjY1LCJleHAiOjE3MTA2MDM5NjV9.3-LM2UjmZoXkVudQ22u3S5Bx60yQZAstt2gVK1D-OW8"
+
+
+}

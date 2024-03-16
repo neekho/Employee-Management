@@ -1,20 +1,40 @@
-POST http://localhost:4000/user/register
+POST http://localhost:4000/employee/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAxMjY1LCJleHAiOjE3MTA2MDMwNjV9.I3Uo02ecDQCOQrPk9roCcDns4eJ7_L_7wtd9Bj_vsK4
 Content-Type: application/json
 
 {
-    "email": "nikho.remulla@gmail.com",
-    "password": "dolly3565@",
-    "role": "superadmin"
+    "firstName": "Test",
+    "lastName": "Rest",
+    "contactNumber": "09725431401",
+    "position": "Software Engineer",
+    "department": "Software Dev 2"
+
+}
+
+
+### Returns the list of employees that are active
+GET http://localhost:4000/employee/employees
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAxMjY1LCJleHAiOjE3MTA2MDMwNjV9.I3Uo02ecDQCOQrPk9roCcDns4eJ7_L_7wtd9Bj_vsK4
+
+
+### Returns a specific employee matching and existing with the id parameter
+GET http://localhost:4000/employee/65e6022f6070eb37cc91f133
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAxMjY1LCJleHAiOjE3MTA2MDMwNjV9.I3Uo02ecDQCOQrPk9roCcDns4eJ7_L_7wtd9Bj_vsK4
+
+### Updates an employee with the matching and existing passed id parameter
+PUT http://localhost:4000/employee/update/65ed4d9b26f7463ae1ca0c9a
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlZWFkZGY0YzI3NDQyM2I2NmQ1MWEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzEwNjAxNDc2LCJleHAiOjE3MTA2MDMyNzZ9.sKyV79_DzwPS9QwQ3a6rqOLhHtdhseyBpJgpPL0gJHg
+
+Content-Type: application/json
+
+{
+    "firstName": "Update",
+    "lastName": "Update",
+    "contactNumber": "1111111",
+    "position": "Software Engineers (Updated)",
+    "department": "Software Engineers (Updated 2)"
 }
 
 ###
-
-
-POST http://localhost:4000/emp/employee
-Content-Type: application/json
-
-{
-    "email": "nikho.remulla@gmail.com",
-    "password": "dolly3565@",
-    "role": "superadmin"
-}
+DELETE http://localhost:4000/employee/delete/65edce3d181814b252fb43ba
+Authorization: Bearer 
