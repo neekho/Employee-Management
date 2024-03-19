@@ -120,7 +120,7 @@ backend > requests. In there, you can read about the different routes and requir
 ___________________________________________________________________________________________________
 
 ### Frontend Routes
-
+For the simplicity of the project's main README.md, the in-depth documentation of the [Front End RoutesI](https://github.com/neekho/Employee-Management/tree/master/backend/requests) can be found inside the fronent folder. In there, you can read about the different routes in navigating system.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
