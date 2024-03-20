@@ -90,56 +90,37 @@ Download all of these to get started. _Please also install packages used, this c
 _Once installed, open a command prompt, choose your directory wherein you want to save the project. Finally, clone the repo._
 
 
-1. Clone the repo
+1. Clone the repo.
    ```sh
    C:\Users\PC> git clone https://github.com/neekho/Employee-Management.git
    ```
-2. Go to the project folder
+2. Go to the project folder.
    ```sh
    C:\Users\PC> cd EmployeeManagement
    ```
-3. Open the project using your preferred editor
+3. Open the project using your preferred editor.
    
-4. Install all necessary packages, refer to packages.json
+4. Install all necessary packages, using npm install in the termial.
    
-5. Run the command node index.js to start the server locally.
-
-
-_Once the local server is running, open up a browser and go to http://localhost:4000/utils/routes
-to see if the local server is up and running. Along with possible routes._
-
-
+5. Create a .env config file, set your mongo db connection, access token secret, and refresh token secret
+6. Run both backend and frontend servers using:
+    ```sh
+     C:\Users\PC>EmployeeManagement\backend > npm run devstart
+     ```
+    ```sh
+     C:\Users\PC>EmployeeManagement\frontend > npm run start
+     ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ___________________________________________________________________________________________________
 
 ### Backend Routes
-![All Routes Screenshot](./assets/project_screenshots/all_routes.PNG)
-
-
-
-<h4>User</h4>
-
-* [GET User Profile](http://localhost:4000/user/profile)  _Returns all attributes related to the user. You must include a request body of -> {"username": "value", "password": "userpassword"}._
-* [POST Add User](http://localhost:4000/user/register)  _Create a user, observe the proper request body in creating a user -> (https://pastebin.com/c0YCnsSR) _
-* [PUT Make User Admin](http://localhost:4000/user/make_administrator/{USER_ID}) _Turns a non-admin account into one, an admin credentials must be provided to the request body {"adminUserName": "a", "adminPassword": "ap"}, and a non admin USER ID to the URL_
-
-
-<h4>Employee</h4>
-
-* [GET Active Products](http://localhost:4000/product/active)  _Returns all products that are active. Disregards all inactive (or archived) products._
-* [GET Single Product by ID](http://localhost:4000/product/{PRODUCT_ID})  _Returns a product by ID. Provide a product ID to url_
-* [POST Add Product](http://localhost:4000/product/create)  _Create a product, observe the proper request body in creating a product -> (https://pastebin.com/v4mwYWan)_
-* [DELETE Product by ID](http://localhost:4000/product/archive/{PRODUCT_ID})  _Archives a product by ID, will make the active status to False when done._
-
-
-
-<h4>Refresh Token</h4>
-
-* [POST Order Checkout](http://localhost:4000/order/checkout)  __
+For the simplicity of the project's main README.md, the in-depth documentation of the [Employee Management API](https://github.com/neekho/Employee-Management/tree/master/backend/requests) can be found in
+backend > requests. In there, you can read about the different routes and requirments for each requests in this project so far.
+___________________________________________________________________________________________________
 
 ### Frontend Routes
-<h4>Authentication</h4>
+For the simplicity of the project's main README.md, the in-depth documentation of the [Front End RoutesI](https://github.com/neekho/Employee-Management/tree/master/backend/requests) can be found inside the fronent folder. In there, you can read about the different routes in navigating system.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
