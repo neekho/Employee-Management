@@ -31,23 +31,41 @@ const App = () => {
           {!localStorage.getItem("accessToken") && (
             <Route path="/dashboard" element={<Login />} />
           )}
-          <Route path="/register" element={<AccountCreation />} />
 
           <Route path="/" element={<Login />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-
-          <Route path="/new" element={<RegisterEmployee />} />
-
-          <Route
-            path="/update-employee/:employeeId"
-            element={<UpdateEmployee />}
-          />
 
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/register"
+            element={
+              <PrivateRoute>
+                <AccountCreation />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/new"
+            element={
+              <PrivateRoute>
+                <RegisterEmployee />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/update-employee/:employeeId"
+            element={
+              <PrivateRoute>
+                <UpdateEmployee />
               </PrivateRoute>
             }
           />
